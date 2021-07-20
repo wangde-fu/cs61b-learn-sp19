@@ -1,4 +1,6 @@
-.idea/
-**/.idea/
-out/
+.idea
+**/.idea
+out
+**/out
 *.iml
+*.class
