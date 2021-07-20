@@ -36,11 +36,13 @@ public class IntList {
     /**
      * Returns a list equal to L with all elements squared. Destructive.
      */
-    public static void dSquareList(IntList L) {
+    public static IntList dSquareList(IntList L) {
+        IntList temp=L;
         while (L != null) {
             L.first = L.first * L.first;
             L = L.rest;
         }
+        return temp;
     }
 
     /**
@@ -119,7 +121,8 @@ public class IntList {
         B1=new IntList(6,B1);
 
         //dcatenate(A1,B1);
-        IntList ans=catenate(A1,B1);
+        //IntList ans=catenate(A1,B1);
+        IntList ans=dSquareList(A1);
     }
 
 
