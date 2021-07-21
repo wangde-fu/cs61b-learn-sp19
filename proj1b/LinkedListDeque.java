@@ -1,4 +1,4 @@
-public class LinkedListDeque<T>{
+public class LinkedListDeque<T> implements Deque<T> {
     private class LinkNode{
         private T item;
         private LinkNode prev;
@@ -21,24 +21,24 @@ public class LinkedListDeque<T>{
         sentinel.prev=sentinel;
         size=0;
     };
-
+    @Override
     public void addFirst(T item){
         size++;
         sentinel.next=new LinkNode(item,sentinel,sentinel.next);
         sentinel.next.next.prev=sentinel.next;
     }
-
+    @Override
     public void addLast(T item){
         size++;
         sentinel.prev=new LinkNode(item,sentinel.prev,sentinel);
         sentinel.prev.prev.next=sentinel.prev;
     }
 
-    public boolean isEmpty(){return size==0;}
-    public int size(){return size;}
-
+    @Override
+    public int size() { return size;}
+    @Override
     public void printDeque(){
-        if (size==0) return;
+        if (size==0) {return;}
 
         LinkNode tempNode=sentinel;
         for (int i = 1; i <size; i++){
@@ -47,27 +47,27 @@ public class LinkedListDeque<T>{
         }
         System.out.println(sentinel.prev.item);
     }
-
+    @Override
     public T removeFirst(){
-        if (size==0) return null;
+        if (size==0) {return null;}
         size--;
         T theItem= sentinel.next.item;
         sentinel.next=sentinel.next.next;
         sentinel.next.prev=sentinel;
         return theItem;
     }
-
+    @Override
     public T removeLast(){
-        if (size==0) return null;
+        if (size==0) {return null;}
         size--;
         T theItem= sentinel.prev.item;
         sentinel.prev=sentinel.prev.prev;
         sentinel.prev.next=sentinel;
         return theItem;
     }
-
+    @Override
     public T get(int index){
-        if (index<1||index>size) return null;
+        if (index<1||index>size) {return null;}
 
         LinkNode tempNode= sentinel.next;
         for (int i=1; i<index; i++ ) {
@@ -80,7 +80,7 @@ public class LinkedListDeque<T>{
         return getRecursive(index,sentinel.next);
     }
     private T getRecursive(int index, LinkNode theLink){
-        if (index==1) return theLink.item;
+        if (index==1) {return theLink.item;}
         return getRecursive(index-1,theLink.next);
     }
 }

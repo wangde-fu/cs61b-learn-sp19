@@ -3,6 +3,7 @@ public class ArrayDeque<T>{
     private int nextFirst;//下次在头部增加时的索引
     private int nextLast;//下次在尾部增加时的索引
     private int size;
+    //没有设哨兵节点
 
     public ArrayDeque(){
         items = (T[]) new Object[8];
