@@ -24,25 +24,25 @@ public class ArrayDeque<T> implements Deque<T> {
 
     public void resize(){
         // 判断是否需要改变数组大小
-        int newsize;
+        int newSize;
         if(size==items.length){
             // 扩大数组
-            newsize = items.length*2;
+            newSize = items.length*2;
         }
         else if(size<=(items.length/3)&&items.length>8){
             // 缩小数组
-            newsize= items.length/2;
+            newSize= items.length/2;
         }
         else{return;}
 
         int theFirst=plusOne(nextFirst);
-        T[] newitems=(T[]) new Object[newsize];
+        T[] newItems=(T[]) new Object[newSize];
         for (int i=0; i<size; i++) {
-            newitems[i]=items[theFirst];
+            newItems[i]=items[theFirst];
             theFirst=plusOne(theFirst);
         }
-        items=newitems;
-        nextFirst=newsize-1;
+        items=newItems;
+        nextFirst=newSize-1;
         nextLast=size;
     }
     @Override
@@ -59,19 +59,19 @@ public class ArrayDeque<T> implements Deque<T> {
         items[nextFirst]=item;
         nextFirst=minusOne(nextFirst);
         size++;
-    };
+    }
     @Override
     public void addLast(T item){
         resize();
         items[nextLast]=item;
         nextLast=plusOne(nextLast);
         size++;
-    };
+    }
     @Override
     public void printDeque(){
         // 打印所有项目
         if (size==0) {
-            System.out.println("");
+            System.out.println(" ");
             return;
         }
 
@@ -81,7 +81,7 @@ public class ArrayDeque<T> implements Deque<T> {
             theFirst=plusOne(theFirst);
         }
         System.out.println(items[minusOne(nextLast)]);
-    };
+    }
     @Override
     public T removeFirst(){
         resize();
@@ -91,7 +91,7 @@ public class ArrayDeque<T> implements Deque<T> {
         items[nextFirst] = null;
         size--;
         return theItem;
-    };
+    }
     @Override
     public T removeLast(){
         resize();
@@ -101,5 +101,5 @@ public class ArrayDeque<T> implements Deque<T> {
         items[nextLast] =null;
         size--;
         return theItem;
-    };
+    }
 }
