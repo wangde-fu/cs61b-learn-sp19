@@ -20,6 +20,7 @@ public class Palindrome{
             return !(First==null);
         }
     }
+    //这里写复杂的原因是我没有意识到迭代的返回值类型可以与输入不一样。根本原因还是没有学懂迭代。
     private Deque<Character> isPalindrome(Deque<Character> wordDeque){
         if (wordDeque.size()<2){return wordDeque;}
         if (wordDeque.removeFirst() != wordDeque.removeLast()){
@@ -34,14 +35,29 @@ public class Palindrome{
         if (word == null) { return false; }
         return isPalindrome(wordToDeque(word));
     }
-    private boolean isPalindrome(Deque word){
-        if (word.size() < 2) {
+    private boolean isPalindrome(Deque wordDeque){
+        if (wordDeque.size() < 2) {
             return true;
         }
-        else if(word.removeFirst()!=word.removeLast()){
+        else if(wordDeque.removeFirst()!=wordDeque.removeLast()){
             return false;
         }
-        else{return isPalindrome(word)}
+        else{return isPalindrome(wordDeque)}
+    }
+
+    public boolean isPalindrome(String word, CharacterComparator cc){
+        if (word == null) { return false; }
+        //这里的cc不是让我们输入的参数，而是外面提前new的一个CharacterComparator实例
+        return isPalindrome(wordToDeque(word),cc);
+    }
+    private boolean isPalindrome(Deque wordDeque,CharacterComparator cc){
+        if (wordDeque.size() < 2) {
+            return true;
+        }
+        else if(!cc.equalChars(wordDeque.removeFirst(),wordDeque.removeLast())){
+            return false;
+        }
+        else{return isPalindrome(wordDeque,cc);}
     }
 
     /*public static void main(String[] args){
