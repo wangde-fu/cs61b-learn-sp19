@@ -35,14 +35,14 @@ public class Palindrome{
         if (word == null) { return false; }
         return isPalindrome(wordToDeque(word));
     }
-    private boolean isPalindrome(Deque wordDeque){
+    private boolean isPalindrome(Deque<Character> wordDeque){
         if (wordDeque.size() < 2) {
             return true;
         }
         else if(wordDeque.removeFirst()!=wordDeque.removeLast()){
             return false;
         }
-        else{return isPalindrome(wordDeque)}
+        else{return isPalindrome(wordDeque);}
     }
 
     public boolean isPalindrome(String word, CharacterComparator cc){
@@ -50,7 +50,7 @@ public class Palindrome{
         //这里的cc不是让我们输入的参数，而是外面提前new的一个CharacterComparator实例
         return isPalindrome(wordToDeque(word),cc);
     }
-    private boolean isPalindrome(Deque wordDeque,CharacterComparator cc){
+    private boolean isPalindrome(Deque<Character> wordDeque,CharacterComparator cc){
         if (wordDeque.size() < 2) {
             return true;
         }

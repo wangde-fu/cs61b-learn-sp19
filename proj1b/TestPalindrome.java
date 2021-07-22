@@ -8,12 +8,13 @@ public class TestPalindrome {
 
     @Test
     public void testWordToDeque() {
-        Deque d = palindrome.wordToDeque("persiflage");
-        String actual = "";
+        Deque<Character> d = palindrome.wordToDeque("persiflage");
+        StringBuilder actual = new StringBuilder();
         for (int i = 0; i < "persiflage".length(); i++) {
-            actual += d.removeFirst();
+            //append:在String后面增补
+            actual.append(d.removeFirst());
         }
-        assertEquals("persiflage", actual);
+        assertEquals("persiflage", actual.toString());
     }
     @Test
     public void isPalindrome(){
