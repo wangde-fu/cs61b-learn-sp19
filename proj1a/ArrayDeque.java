@@ -36,7 +36,7 @@ public class ArrayDeque<T>{
             // 缩小数组
             newsize= items.length/2;
         }
-        else{return;}
+        else return;
 
         int theFirst=plusOne(nextFirst);
         T[] newitems=(T[]) new Object[newsize];
