@@ -29,7 +29,7 @@ public class AList<Item> {
         items = a;
     }
 
-    /** Inserts X into the back of the list. */
+    /** Inserts Item X into the back of the list. */
     public void addLast(Item x) {
         if (size == items.length) {
             resize((int) (size + 1));

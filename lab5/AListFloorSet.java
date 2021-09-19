@@ -8,11 +8,20 @@ public class AListFloorSet implements Lab5FloorSet {
         items = new AList<>();
     }
 
+    @Override
     public void add(double x) {
-        return;
+        items.addLast(x);
     }
 
+    @Override
     public double floor(double x) {
-        return 0;
+        double biggest=Double.NEGATIVE_INFINITY;
+        for(int i=0; i<items.size(); i++){
+            double thisItem=items.get(i);
+            if(thisItem<=x&&thisItem>biggest){
+                biggest=thisItem;
+            }
+        }
+        return biggest;
     }
 }
