@@ -5,55 +5,85 @@ import java.util.Iterator;
 //TODO: Make sure to add the override tag for all overridden methods
 //TODO: Make sure to make this class implement BoundedQueue<T>
 
-public class ArrayRingBuffer<T>  {
-    /* Index for the next dequeue or peek. */
+public class ArrayRingBuffer<T> implements BoundedQueue<T> {
+    // Index for the next dequeue or peek.
     private int first;
-    /* Index for the next enqueue. */
+    // Index for the next enqueue.
     private int last;
-    /* Variable for the fillCount. */
+    // Variable for the fillCount.
     private int fillCount;
-    /* Array for storing the buffer data. */
+    // Array for storing the buffer data.
     private T[] rb;
 
-    /**
-     * Create a new ArrayRingBuffer with the given capacity.
-     */
     public ArrayRingBuffer(int capacity) {
-        // TODO: Create new array with capacity elements.
-        //       first, last, and fillCount should all be set to 0.
+        first=0;
+        last=0;
+        fillCount=0;
+        rb=(T[]) new Object[capacity];
+    }
+
+    private int nextId(int index){
+        // return the index of the next element in the front or end.
+        /*if (index==(rb.capacity()-1)) {
+            return 0;
+        }
+        return (index+1);*/
+        return (index+1==this.capacity()? 0:(last+1));
     }
 
     /**
      * Adds x to the end of the ring buffer. If there is no room, then
      * throw new RuntimeException("Ring buffer overflow").
      */
+    @Override
     public void enqueue(T x) {
-        // TODO: Enqueue the item. Don't forget to increase fillCount and update
-        //       last.
-        return;
+        if (isFull()) {
+            throw new RuntimeException("Ring buffer overflow");
+        }
+        if (x==null) {
+            throw new IllegalArgumentException("null is not allowed");
+        }
+        rb[last]=x;
+        fillCount++;
+        last=nextId(last);
     }
 
     /**
      * Dequeue oldest item in the ring buffer. If the buffer is empty, then
      * throw new RuntimeException("Ring buffer underflow").
      */
+    @Override
     public T dequeue() {
-        // TODO: Dequeue the first item. Don't forget to decrease fillCount and
-        //       update first.
-        return null;
+        if (isEmpty()) {
+            throw new RuntimeException("Ring buffer underflow");
+        }
+        T theX=rb[first];
+        fillCount--;
+        first=nextId(first);
+        return theX;
     }
 
     /**
      * Return oldest item, but don't remove it. If the buffer is empty, then
      * throw new RuntimeException("Ring buffer underflow").
      */
+    @Override
     public T peek() {
-        // TODO: Return the first item. None of your instance variables should
-        //       change.
-        return null;
+        if (isEmpty()) {
+            throw new RuntimeException("Ring buffer underflow");
+        }
+        return rb[first];
+    }
+
+    @Override
+    public int capacity() {
+        return rb.length;
+    }
+    @Override
+    public int fillCount(){
+        return fillCount;
     }
 
     // TODO: When you get to part 4, implement the needed code to support
     //       iteration and equals.
 }
-    // TODO: Remove all comments that say TODO when you're done.
