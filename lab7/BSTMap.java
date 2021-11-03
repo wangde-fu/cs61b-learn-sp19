@@ -1,6 +1,7 @@
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.Stack;
 // import static org.junit.Assert.*;
 
 public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
@@ -161,7 +162,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
         return BSTSet;
     }
     private void preOrder(Node node,Set<K> BSTSet) {
-    if (node == null) { return; }
+        if (node == null) { return; }
         // print(node.key)
         BSTSet.add(node.key);
         preOrder(node.left,BSTSet);
@@ -172,9 +173,59 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
     public Iterator<K> iterator() {
         return new MyIterator(root);
     }
+    public Iterator<K> iterator(Node node) {
+        return new MyIterator(node);
+    }
     private class MyIterator implements Iterator{
+        private Stack<K> stack = new Stack<>();
+        public MyIterator(Node node){
+            for(int i=0;i<size(node);i++){
+                preOrder(node,stack);
+            }
+        }
+        private void preOrder(Node node,Stack<K> stack) {
+            if (node == null) { return; }
+            stack.push(node.key);
+            preOrder(node.left,stack);
+            preOrder(node.right,stack);
+        }
+
         @Override
-        public 
+        public boolean hasNext(){ return !stack.isEmpty(); }
+        @Override
+        public K next(){ return stack.pop(); }
+        /*@Override
+        public void remove(){
+            K key=stack.pop();
+            V val=BSTMap.remove(key);
+        }*/
+
+
+        //一种很有思路的方法
+        /*public BSTIterator(Node src) {
+            while (src != null) {
+                // Push root node and all left nodes to the stack.
+                stack.push(src);
+                src = src.left;
+            }
+        }
+        @Override
+        public boolean hasNext() {
+            return !stack.isEmpty();
+        }
+        @Override
+        public K next() {
+            Node curr = stack.pop();
+
+            if (curr.right != null) {
+                Node temp = curr.right;
+                while (temp != null) {
+                    stack.push(temp);
+                    temp = temp.left;
+                }
+            }
+            return curr.key;
+        }*/
     }
 
     @Override
@@ -197,17 +248,18 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
     private Node remove(Node node,K key){
         int cmp = key.compareTo(node.key);
         if (cmp<0) {
-            node.size()--;
+            node.size--;
             node.left = remove(node.left,key);
         } else if (cmp>0) {
-            node.size()--;
+            node.size--;
             node.right = remove(node.right,key);
         } else {
-            if (node.size()==1) {
+            if (size(node)==1) {
                 return null;
             }
             return reBuild(node);
         }
+        return node;
     }
     private Node reBuild(Node node){
         //右节点取代原节点，将左子树挂到右子树最小值的左面
