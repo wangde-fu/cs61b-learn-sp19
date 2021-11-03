@@ -64,8 +64,8 @@ public class TestBSTMap {
         assertEquals(0, b.size());
         b.put("hi", 1);
         assertEquals(1, b.size());
-        for (int i = 0; i < 455; i++)
-            b.put("hi" + i, 1);
+        for (int i = 0; i < 455; i++){
+            b.put("hi" + i, 1);}
         assertEquals(456, b.size());
     }
 
