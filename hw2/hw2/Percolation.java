@@ -37,13 +37,15 @@ public class Percolation {
     }
 
     private void validateRowCol(int row,int col){
-        throw new IndexOutOfBoundsException("Index is not betwwen 1 and N");
+        if (row<0||row>N-1||col<0||col>N-1) {
+            throw new IndexOutOfBoundsException("Index is not betwwen 0 and N-1");
+        }
     }
     // transform (row, col) to an array
     private int xy2array(int row,int col){
         validateRowCol(row,col);
-        //top对应数组的0,bottom对应N*N+1
-        return (row-1)*N+col-1;
+        //top对应数组的-1,bottom对应N*N
+        return row*N+col;
     }
 
     // open the site (row, col) if it is not open already
@@ -58,15 +60,15 @@ public class Percolation {
         if (isOpened[index]) {return;}
 
         numOpenSites++;
-        if (row==1) {
+        if (row==0) {
             connectTop[index]=true;
         }
-        if (row==N) {
+        if (row==N-1) {
             connectBottom[index]=true;
         }
         isOpened[index]=true;
 
-        if (row>1&&isOpened[index-N]) {
+        if (row>0&&isOpened[index-N]) {
             if (connectTop[uf.find(index)]||connectTop[uf.find(index-N)]) {
                 top=true;
             }
@@ -75,7 +77,7 @@ public class Percolation {
             }
             uf.union(index, index-N);
         }
-        if (row<N&&isOpened[index+N]) {
+        if (row<(N-1)&&isOpened[index+N]) {
             if (connectTop[uf.find(index)]||connectTop[uf.find(index+N)]) {
                 top=true;
             }
@@ -84,7 +86,7 @@ public class Percolation {
             }
             uf.union(index, index+N);
         }
-        if (col>1&&isOpened[index-1]) {
+        if (col>0&&isOpened[index-1]) {
             if (connectTop[uf.find(index)]||connectTop[uf.find(index-1)]) {
                 top=true;
             }
@@ -93,7 +95,7 @@ public class Percolation {
             }
             uf.union(index, index-1);
         }
-        if (col<N&&isOpened[index+1]) {
+        if (col<(N-1)&&isOpened[index+1]) {
             if (connectTop[uf.find(index)]||connectTop[uf.find(index+1)]) {
                 top=true;
             }
