@@ -33,7 +33,7 @@ public class Percolation {
              connectTop[i] = false;
              connectBottom[i] = false;
          }
-         percolateFlag = false;
+         isPercolation = false;
     }
 
     private void validateRowCol(int row,int col){
@@ -49,20 +49,20 @@ public class Percolation {
     // open the site (row, col) if it is not open already
     public void open(int row, int col) {
         validateRowCol(row,col);
-        private int index=xy2array(row,col);
+        int index=xy2array(row,col);
         // 这样可以减少赋值的次数
-        private boolean top=false;
-        private boolean bottom=false;
+        boolean top=false;
+        boolean bottom=false;
 
         // 若已经打开了这个格子，就直接返回
         if (isOpened[index]) {return;}
 
         numOpenSites++;
         if (row==1) {
-            connectTop[index]==true;
+            connectTop[index]=true;
         }
         if (row==N) {
-            connectBottom[index]==true;
+            connectBottom[index]=true;
         }
         isOpened[index]=true;
 
@@ -106,7 +106,7 @@ public class Percolation {
         connectTop[uf.find(index)] = top;
         connectBottom[uf.find(index)] = bottom;
         if( connectTop[uf.find(index)] &&  connectBottom[uf.find(index)]) {
-            percolateFlag = true;
+            isPercolation = true;
         }
     }
 
@@ -135,7 +135,7 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        return percolateFlag;
+        return isPercolation;
     }
 
     // use for unit testing (not required, but keep this here for the autograder)
