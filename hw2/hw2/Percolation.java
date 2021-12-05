@@ -129,7 +129,7 @@ public class Percolation {
             numberOfOpen+=i?1:0;
         }
         return numberOfOpen;*/
-        // 题目要求这个函数调用需要固定时间
+        // 题目要求这个函数调用固定时间
         return numOpenSites;
     }
 
