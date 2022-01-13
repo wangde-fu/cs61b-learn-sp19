@@ -5,8 +5,8 @@ import java.util.Stack;
 // import static org.junit.Assert.*;
 
 public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
-    private Node root;             // root of BST
     //root中是储存值的
+    private Node root;             // root of BST
 
     private class Node {
         private final K key;           // sorted by key
