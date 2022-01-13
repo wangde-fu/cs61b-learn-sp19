@@ -44,7 +44,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
     /* Associates the specified value with the specified key in this map. */
     public void put(K key, V value){
         //时刻不要忘记输入null的情况
-        //我们也不允许输入value为空
+        //我们也不允许输入value为null
         if (key == null || value == null) {
             throw new IllegalArgumentException();
         }
