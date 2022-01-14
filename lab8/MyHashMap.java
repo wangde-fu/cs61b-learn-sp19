@@ -200,7 +200,21 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * UnsupportedOperationException.
      */
     @Override
-    public V remove(K key){}
+    public V remove(K key){
+        int theHash = hash(key, buckets.length);
+
+        ListInBuckets<K, V> theList = buckets[theHash];
+        while (theList != null) {
+            if (theList.getKey().equals(key)) {
+                // 删除节点
+                remove(key, theList, theHash);
+                size--;
+                return theList.getValue();
+            }
+            theList = theList.getNext();
+        }
+        return null;
+    }
 
     /**
      * Removes the entry for the specified key only if it is currently mapped to
@@ -212,5 +226,28 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         int theHash = hash(key, buckets.length);
 
         ListInBuckets<K, V> theList = buckets[theHash];
+        while (theList != null) {
+            if (theList.getKey().equals(key) && theList.getValue().equals(value)) {
+                // 删除节点
+                remove(key, theList, theHash);
+                size--;
+                return value;
+            }
+            theList = theList.getNext();
+        }
+        return null;
+    }
+
+    private void remove(K key, ListInBuckets theList, int theHash){
+        // 链表第一个
+        if (buckets[theHash].getKey().equals(key)) {
+            buckets[theHash] = theList.getNext();
+        }
+        // 不是链表第一个
+        LinkedList<K, V> tempList = buckets[theHash];
+        while (!tempList.getNext().getKey().equals(key)) {
+            tempList = tempList.getNext();
+        }
+        tempList.setNext(theList);
     }
 }
