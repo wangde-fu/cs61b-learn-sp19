@@ -1,8 +1,9 @@
+import java.util.LinkedList;
 import java.util.Set;
 //import java.util.ArrayList;
 //import java.util.LinkedList;
 import java.util.HashSet;
-import java.util.iterator;
+import java.util.Iterator;
 
 public class MyHashMap<K, V> implements Map61B<K, V> {
     private static final int initialSize = 16;
@@ -244,7 +245,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
             buckets[theHash] = theList.getNext();
         }
         // 不是链表第一个
-        LinkedList<K, V> tempList = buckets[theHash];
+        ListInBuckets<K, V> tempList = buckets[theHash];
         while (!tempList.getNext().getKey().equals(key)) {
             tempList = tempList.getNext();
         }
