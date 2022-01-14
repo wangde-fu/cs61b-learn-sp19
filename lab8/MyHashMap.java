@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.iterator;
 
 public class MyHashMap<K, V> implements Map61B<K, V> {
-
     private static final int initialSize = 16;
     private static final double loadFactor = 0.75;
 
@@ -15,37 +14,39 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
 
     // 可以使用标准库中的 SequentialSearchST ，即一个无序链表
     // 这里自己实现 ListInBuckets
-    private class ListInBuckets<K,V>{
+    private class ListInBuckets<K, V> {
         private K key;
         private V value;
-        private ListInBuckets<K,V> next;
+        private ListInBuckets<K, V> next;
         // private int hashCode;
 
         // 初始化 ListInBuckets
-        public ListInBuckets(K key,V value,ListInBuckets next){
+        public ListInBuckets(K key, V value, ListInBuckets next){
             // 不储存hashCode
             this.key = key;
             this.value = value;
             this.next = next;
         }
+
         /*
-        // 将hashCode储存到每个LinkedList中
-        public ListInBuckets(K Key,V Value,ListInBuckets next,int hashCode){
-            this.key = key;
-            this.value = value;
-            this.next = next;
-            this.hashCode = hashCode;
-        }*/
+         * //将hashCode储存到每个LinkedList中
+         * public ListInBuckets(K Key,V Value,ListInBuckets next,int hashCode){
+         *  this.key = key;
+         *  this.value = value;
+         *  this.next = next;
+         *  this.hashCode = hashCode;
+         * }
+         */
 
         // 访问器方法
         // public int getHashCode() { return hashCode; }
         // public void setHashCode(int hashCode) { this.hashCode = hashCode; }
-        public K getKey() { return key; }
+        public K getKey(){ return key; }
         // public void setKey(K key) { this.key = key; }
-        public V getValue() { return value; }
-        public void setValue(V value) { this.value = value; }
-        public ListInBuckets<K, V> getNext() { return next; }
-        public void setNext(ListInBuckets<K, V> next) { this.next = next; }
+        public V getValue(){ return value; }
+        public void setValue(V value){ this.value = value; }
+        public ListInBuckets<K, V> getNext(){ return next; }
+        public void setNext(ListInBuckets<K, V> next){ this.next = next; }
     }
 
     // 初始化MyHashMap
@@ -54,11 +55,13 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         threshold = (int) (initialSize * loadFactor);
         size = 0;
     }
+
     public MyHashMap(int theInitialSize){
         buckets = new ListInBuckets[theInitialSize];
         threshold = (int) (theInitialSize * loadFactor);
         size = 0;
     }
+
     public MyHashMap(int theInitialSize, double theLoadFactor){
         buckets = new ListInBuckets[theInitialSize];
         threshold = (int) (theInitialSize * theLoadFactor);
@@ -67,7 +70,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
 
     /** Removes all of the mappings from this map. */
     @Override
-    public void clear() {
+    public void clear(){
         throw new UnsupportedOperationException();
     }
 
@@ -86,21 +89,21 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public V get(K key){
-        int theHash=hash(key,buckets.length);
+        int theHash = hash(key, buckets.length);
 
-        ListInBuckets<K,V> theList=buckets[theHash];
+        ListInBuckets<K, V> theList = buckets[theHash];
 
-        while(theList!=null){
+        while (theList != null) {
             if (theList.getKey().equals(key)) {
                 return theList.getValue();
             }
-            theList=theList.getNext();
+            theList = theList.getNext();
         }
         return null;
     }
 
     /** Rewrite the hashCode for this class. */
-    private int hash(K key, int length) {
+    private int hash(K key, int length){
         if (key == null) {
             throw new IllegalArgumentException();
         }
@@ -109,7 +112,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         // 它返回0-(length-1)之间的数字，故亦可作为数组索引
         int h = key.hashCode();
         h ^= (h >>> 20) ^ (h >>> 12) ^ (h >>> 7) ^ (h >>> 4);
-        return h & (length-1);
+        return h & (length - 1);
     }
 
     /** Returns the number of key-value mappings in this map. */
@@ -122,50 +125,50 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * the old value is replaced.
      */
     @Override
-    public void put(K key, V value){
+    public void put(K key, V value) {
         if (key == null) {
             throw new IllegalArgumentException();
         }
-        if (value==null) {
+        if (value == null) {
             remove(key);
             return;
         }
 
-        int theHash=hash(key,buckets.length);
-        ListInBuckets<K,V> theList=buckets[theHash];
+        int theHash = hash(key, buckets.length);
+        ListInBuckets<K, V> theList = buckets[theHash];
 
-        while(theList!=null){
+        while (theList != null) {
             if (theList.getKey().equals(key)) {
                 // 更新value
                 theList.setValue(value);
                 return;
             }
-            theList=theList.getNext();
+            theList = theList.getNext();
         }
         put(theHash, key, value);
     }
 
-    private void put(int theHash,K key,V value){
+    private void put(int theHash, K key, V value){
         // 把之前的LinkedList放在新节点的next可以简化写法
-        ListInBuckets<K,V> theList = new ListInBuckets<>(key,value,buckets[theHash]);
-        buckets[theHash]=theList;
+        ListInBuckets<K, V> theList = new ListInBuckets<>(key, value, buckets[theHash]);
+        buckets[theHash] = theList;
         size++;
-        if (size>threshold) {
+        if (size > threshold) {
             resize(buckets.length * 2);
         }
     }
 
     private void resize(int newLength){
-        ListInBuckets<K,V>[] newBuckets = new ListInBuckets[newLength];
-        for (int i = 0; i < buckets.length; i ++) {
-            ListInBuckets<K,V> theList=buckets[i];
-            while(theList!=null){
+        ListInBuckets<K, V>[] newBuckets = new ListInBuckets[newLength];
+        for (int i = 0; i < buckets.length; i++) {
+            ListInBuckets<K, V> theList = buckets[i];
+            while (theList != null) {
                 int newHashCode = hash(theList.getKey(), newLength);
 
-                ListInBuckets<K,V> tempList = new ListInBuckets<>(theList.getKey(),theList.getValue(),newBuckets[newHashCode]);
-                newBuckets[newHashCode]=tempList;
+                ListInBuckets<K, V> tempList = new ListInBuckets<>(theList.getKey(), theList.getValue(), newBuckets[newHashCode]);
+                newBuckets[newHashCode] = tempList;
 
-                theList=theList.getNext();
+                theList = theList.getNext();
             }
         }
         buckets = newBuckets;
@@ -176,7 +179,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     @Override
     public Set<K> keySet(){
         Set<K> allKeys = new HashSet<>();
-        for (int i = 0; i < buckets.length; i ++) {
+        for (int i = 0; i < buckets.length; i++) {
             ListInBuckets<K, V> theList = buckets[i];
             while (theList != null) {
                 allKeys.add(theList.getKey());
@@ -187,7 +190,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     }
 
     @Override
-    public Iterator<K> iterator() {
+    public Iterator<K> iterator(){
         return keySet().iterator();
     }
 
@@ -206,8 +209,8 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public V remove(K key, V value){
-        int theHash=hash(key,buckets.length);
+        int theHash = hash(key, buckets.length);
 
-        ListInBuckets<K,V> theList=buckets[theHash];
+        ListInBuckets<K, V> theList = buckets[theHash];
     }
 }
