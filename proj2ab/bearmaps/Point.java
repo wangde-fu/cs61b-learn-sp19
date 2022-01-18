@@ -1,7 +1,6 @@
 package bearmaps;
 
 public class Point {
-
     private double x;
     private double y;
 
@@ -10,13 +9,9 @@ public class Point {
         this.y = y;
     }
 
-    public double getX() {
-        return x;
-    }
+    public double getX() { return x; }
 
-    public double getY() {
-        return y;
-    }
+    public double getY() { return y; }
 
     /**
      * Returns the euclidean distance (L2 norm) squared between two points
@@ -30,7 +25,7 @@ public class Point {
     /**
      * Returns the euclidean distance (L2 norm) squared between two points.
      * Note: This is the square of the Euclidean distance, i.e.
-     * there's no square root. 
+     * there's no square root.
      */
     public static double distance(Point p1, Point p2) {
         return distance(p1.getX(), p2.getX(), p1.getY(), p2.getY());
