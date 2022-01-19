@@ -9,9 +9,9 @@ public class KDTree implements PointSet {
     private Node root;             // root of KDTree
 
     private class Node {
-        private Point thepoint;
+        private Point thpoint;
         private boolean splitDim;
-        private int size;          // number of nodes in subtree
+        // private int size;          // number of nodes in subtree
         private Node left, right;  // left and right subtrees
 
         Node(Point point, boolean splitDim) {
@@ -20,6 +20,11 @@ public class KDTree implements PointSet {
             left = null;
             right = null;
         }
+
+        public Point getPoint() { return thePoint; }
+        public Node getLeft() { return left; }
+        public Node getRight() { return right; }
+        public boolean getSplitDim() { return splitDim; }
     }
 
     // You can assume points has at least size 1.
