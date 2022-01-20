@@ -19,7 +19,7 @@ public class NaivePointSet implements PointSet {
         Point nearestPoint = points.get(0);
         Double distance = Point.distance(targetPoint, nearestPoint);
 
-        for (Point thePoint in points) {
+        for (Point thePoint : points) {
             if (Point.distance(targetPoint, thePoint) < distance) {
                 nearestPoint = thePoint;
             }
