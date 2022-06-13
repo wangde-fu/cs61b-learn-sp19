@@ -20,8 +20,8 @@ public class KDTree implements PointSet {
         Node(Point point, boolean splitDim) {
             this.thePoint = point;
             this.splitDim = splitDim;
-            left = null;
-            right = null;
+            // left = null;
+            // right = null;
         }
 
         public Point getPoint() { return thePoint; }
